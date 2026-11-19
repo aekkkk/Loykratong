@@ -5,7 +5,6 @@ import Building from './Building';
 import Krathong from './Krathong';
 import Fireworks from './Fireworks';
 import Lotus from './Lotus';
-import InfoPanel from './InfoPanel';
 import { COLORS, STORE_KEY, chime } from '../lib/krathong';
 
 const LANES = [{ scale: 0.6, bright: 0.75 }, { scale: 0.8, bright: 0.9 }, { scale: 1, bright: 1 }];
@@ -18,12 +17,10 @@ export default function Scene() {
   const [mine, setMine] = useState([]);
   const [count, setCount] = useState(0);
   const [create, setCreate] = useState(false);
-  const [info, setInfo] = useState(false);
   const [name, setName] = useState('');
   const [wish, setWish] = useState('');
   const [color, setColor] = useState(COLORS[0]);
   const [shown, setShown] = useState(null);
-  const closeInfo = useCallback(() => setInfo(false), []);
 
   useEffect(() => {
     setAmbient(LANES.flatMap((l, li) => Array.from({ length: 5 }, (_, i) => {
@@ -100,8 +97,7 @@ export default function Scene() {
       </div>
 
       <button className="btn create-btn" onClick={() => setCreate(true)}>🪷 สร้างกระทง</button>
-      <button className="info-btn" onClick={() => setInfo(true)}>📖 เรื่องลอยกระทง</button>
-      <Link href="/" className="info-btn hist-btn">📜 ประวัติ</Link>
+      <Link href="/" className="info-btn hist-btn">📜 ประวัติและเรื่องราว</Link>
 
       {create && (
         <div className="modal-bg" onClick={(e) => e.target === e.currentTarget && setCreate(false)}>
@@ -123,7 +119,6 @@ export default function Scene() {
           </div>
         </div>
       )}
-      {info && <InfoPanel onClose={closeInfo} />}
     </div>
   );
 }

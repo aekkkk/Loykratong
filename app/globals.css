@@ -276,3 +276,6 @@ html,body{height:100%;overflow:hidden}
 .page-title{font-size:clamp(2.2rem,7vw,3.6rem);color:var(--gold);text-align:center;text-shadow:0 0 28px rgba(255,209,102,.5)}
 a.btn,a.info-btn{text-decoration:none;display:inline-block}
 .go-btn{font-size:1.2rem}
+
+.hist-btn{left:14px!important}
+@media(max-width:700px){.hist-btn{bottom:90px!important}}
