@@ -74,13 +74,6 @@ export default function InfoPanel({ onClose }) {
         </section>
 
         <section>
-          <Head title="ประวัติความเป็นมา" sub="จากพิธีโบราณสู่เทศกาลที่คนทั้งโลกรู้จัก" />
-          <div className="timeline">
-            {history.map(([t, d], n) => (<Reveal key={t} className="tl" delay={n * 100}><h3>{t}</h3><p>{d}</p></Reveal>))}
-          </div>
-        </section>
-
-        <section>
           <Head title="ตึกเก่าเล่าเรื่อง" sub="อาคารอิฐแดงสไตล์โคโลเนียลริมน้ำ ก่อนและหลังการปรับปรุง" />
           <Reveal className="lead">
             ริมน้ำที่ผู้คนมาลอยกระทงมักมีอาคารเก่าแก่เป็นฉากหลัง ลากแถบเลื่อนเพื่อดูอาคารก่อนและหลังการบูรณะ

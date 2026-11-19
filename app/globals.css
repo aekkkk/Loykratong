@@ -263,3 +263,11 @@ html,body{height:100%;overflow:hidden}
 .btn{font-family:'Mali',sans-serif;font-size:1.1rem;border:0;cursor:pointer;color:#2a1a00;padding:.8rem 2rem;border-radius:999px;
   background:linear-gradient(135deg,var(--gold),var(--amber));box-shadow:0 6px 24px rgba(255,159,28,.45);transition:transform .2s,box-shadow .2s}
 .btn:hover{box-shadow:0 10px 30px rgba(255,159,28,.6)}
+
+.hist-btn{left:170px}
+@media(max-width:700px){.hist-btn{left:10px;bottom:136px}}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.tabs button{padding:.6rem 1.3rem;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;font:inherit}
+.tabs button.on{background:linear-gradient(135deg,var(--gold),var(--amber));color:#2a1a00;border-color:transparent}
+.hist-card{text-align:center;display:flex;flex-direction:column;gap:.3rem;align-items:center}
+.hist-kr svg{width:90px}.hist-wish{font-style:italic}.hist-date{color:var(--muted)}

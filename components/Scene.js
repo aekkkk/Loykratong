@@ -5,6 +5,7 @@ import Krathong from './Krathong';
 import Fireworks from './Fireworks';
 import Lotus from './Lotus';
 import InfoPanel from './InfoPanel';
+import HistoryPanel from './HistoryPanel';
 import { COLORS, chime } from '../lib/krathong';
 
 const LANES = [{ scale: 0.6, bright: 0.75 }, { scale: 0.8, bright: 0.9 }, { scale: 1, bright: 1 }];
@@ -18,11 +19,13 @@ export default function Scene() {
   const [count, setCount] = useState(0);
   const [create, setCreate] = useState(false);
   const [info, setInfo] = useState(false);
+  const [hist, setHist] = useState(false);
   const [name, setName] = useState('');
   const [wish, setWish] = useState('');
   const [color, setColor] = useState(COLORS[0]);
   const [shown, setShown] = useState(null);
   const closeInfo = useCallback(() => setInfo(false), []);
+  const closeHist = useCallback(() => setHist(false), []);
 
   useEffect(() => {
     setAmbient(LANES.flatMap((l, li) => Array.from({ length: 5 }, (_, i) => {
@@ -33,11 +36,11 @@ export default function Scene() {
     if (saved) { setMine(saved.mine || []); setCount(saved.count || 0); }
   }, []);
 
-  const persist = (m, c) => store(() => localStorage.setItem(KEY, JSON.stringify({ mine: m.slice(-10), count: c })));
+  const persist = (m, c) => store(() => localStorage.setItem(KEY, JSON.stringify({ mine: m.slice(-30), count: c })));
 
   const launch = () => {
-    const k = { id: 'm' + Date.now(), lane: 2, color, name: name.trim() || 'ผู้ไม่ประสงค์ออกนาม', wish: wish.trim() || 'ขอให้ทุกคนมีความสุข', dur: 80, delay: -9, top: 2 + Math.random() * 26 };
-    const m = [...mine, k].slice(-10), c = count + 1;
+    const k = { id: 'm' + Date.now(), lane: 2, color, name: name.trim() || 'ผู้ไม่ประสงค์ออกนาม', wish: wish.trim() || 'ขอให้ทุกคนมีความสุข', ts: Date.now(), dur: 80, delay: -9, top: 2 + Math.random() * 26 };
+    const m = [...mine, k].slice(-30), c = count + 1;
     setMine(m); setCount(c); persist(m, c);
     setCreate(false); setWish(''); setShown(k.id); setTimeout(() => setShown((s) => (s === k.id ? null : s)), 5000);
     chime();
@@ -52,7 +55,7 @@ export default function Scene() {
 
   const lanes = LANES.map((l, li) => ({
     ...l,
-    items: [...ambient.filter((a) => a.lane === li), ...mine.filter((m) => m.lane === li).map((m) => ({ ...m, delay: m.id !== mine[mine.length - 1]?.id ? -Math.random() * 70 : m.delay }))],
+    items: [...ambient.filter((a) => a.lane === li), ...mine.slice(-10).filter((m) => m.lane === li).map((m) => ({ ...m, delay: m.id !== mine[mine.length - 1]?.id ? -Math.random() * 70 : m.delay }))],
   }));
 
   return (
@@ -100,6 +103,7 @@ export default function Scene() {
 
       <button className="btn create-btn" onClick={() => setCreate(true)}>🪷 สร้างกระทง</button>
       <button className="info-btn" onClick={() => setInfo(true)}>📖 เรื่องลอยกระทง</button>
+      <button className="info-btn hist-btn" onClick={() => setHist(true)}>📜 ประวัติ</button>
 
       {create && (
         <div className="modal-bg" onClick={(e) => e.target === e.currentTarget && setCreate(false)}>
@@ -122,6 +126,7 @@ export default function Scene() {
         </div>
       )}
       {info && <InfoPanel onClose={closeInfo} />}
+      {hist && <HistoryPanel mine={mine} onClose={closeHist} onClear={() => { setMine([]); setCount(0); persist([], 0); }} />}
     </div>
   );
 }
