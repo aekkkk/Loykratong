@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
  * 2) ถ้าไม่มี จะสังเคราะห์ทำนองสไตล์เพลงลอยกระทงด้วย Web Audio
  * เบราว์เซอร์บล็อกเสียงอัตโนมัติ จึงเริ่มเพลงเมื่อผู้ใช้แตะหน้า splash
  */
+const YT_ID = 'CMEkHkX_dkg';
 const SRC = ['/assets/loykratong.mp3', '/assets/loykratong.ogg', '/assets/loykratong.m4a'];
 const N = { C: 0, D: 2, E: 4, G: 7, A: 9, c: 12, d: 14, e: 16 };
 const MEL = [
@@ -26,7 +27,7 @@ const freq = (s) => 261.63 * Math.pow(2, s / 12);
 export default function MusicPlayer() {
   const [entered, setEntered] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const e = useRef({ ctx: null, master: null, file: null, useFile: false, timer: null, nextT: 0, step: 0, ready: null, playing: false });
+  const e = useRef({ ctx: null, master: null, file: null, useFile: false, timer: null, nextT: 0, step: 0, ready: null, playing: false, yt: null, ytOk: false });
 
   // probe for an audio file once
   useEffect(() => {
@@ -42,8 +43,33 @@ export default function MusicPlayer() {
       };
       next(); setTimeout(() => res(false), 2500);
     });
-    return () => { clearInterval(s.timer); s.file?.pause(); s.ctx?.close(); };
+    // YouTube player (เพลงหลัก) — ฝังผ่าน IFrame API
+    const mk = () => {
+      s.yt = new window.YT.Player('yt-player', {
+        videoId: YT_ID, playerVars: { playsinline: 1, controls: 0, rel: 0 },
+        events: {
+          onReady: () => { s.ytOk = true; if (s.playing) s.yt.playVideo(); },
+          onStateChange: (ev) => { if (ev.data === 0) { s.yt.seekTo(0); s.yt.playVideo(); } },
+          onError: () => { s.ytOk = false; if (s.playing) fallback(); },
+        },
+      });
+    };
+    if (window.YT?.Player) mk();
+    else {
+      const prev = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => { prev?.(); mk(); };
+      const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(sc);
+    }
+    return () => { clearInterval(s.timer); s.file?.pause(); s.ctx?.close(); try { s.yt?.destroy(); } catch {} };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // ถ้า YouTube เล่นไม่ได้ ใช้ไฟล์เสียง/เพลงสังเคราะห์แทน
+  const fallback = async () => {
+    const s = e.current; await s.ready;
+    if (s.useFile) { try { s.file.volume = .8; await s.file.play(); return; } catch { s.useFile = false; } }
+    startSynth();
+  };
 
   const note = (semi, t, dur, vol, type) => {
     const { ctx, master } = e.current;
@@ -101,16 +127,14 @@ export default function MusicPlayer() {
   const play = async () => {
     const s = e.current; if (s.playing) return;
     s.playing = true; setPlaying(true);
-    await s.ready;
-    if (!s.playing) return;
-    if (s.useFile) {
-      try { s.file.volume = .8; await s.file.play(); } catch { s.useFile = false; startSynth(); }
-    } else startSynth();
+    if (s.ytOk) { s.yt.playVideo(); return; } // เรียกทันทีเพื่อคงสิทธิ์จากการแตะของผู้ใช้
+    if (!s.yt) fallback(); // else: onReady จะเล่นเอง
   };
   const pause = () => {
     const s = e.current; if (!s.playing) return;
     s.playing = false; setPlaying(false);
-    if (s.useFile) s.file?.pause(); else stopSynth();
+    if (s.ytOk) s.yt.pauseVideo();
+    else if (s.useFile) s.file?.pause(); else stopSynth();
   };
 
   const enter = () => { if (entered) return; setEntered(true); play(); };
@@ -126,6 +150,7 @@ export default function MusicPlayer() {
         <button className="btn" type="button">🪷 เข้าสู่เทศกาล + เปิดเพลง 🎶</button>
         <p style={{ fontSize: '.85rem' }}>แตะที่ใดก็ได้เพื่อเริ่ม</p>
       </div>
+      <div id="yt-wrap" aria-hidden="true"><div id="yt-player" /></div>
       <button id="musicBtn" className={playing ? 'playing' : ''} aria-label="เปิด/ปิดเพลง" title="เปิด/ปิดเพลง"
         onClick={() => (playing ? pause() : play())}>♪</button>
       <div id="nowPlaying" className={playing ? 'show' : ''}>🎶 เพลงลอยกระทง</div>

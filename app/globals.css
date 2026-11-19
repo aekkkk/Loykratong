@@ -141,3 +141,4 @@ textarea{width:100%;padding:.8rem 1rem;border-radius:14px;border:1px solid var(-
 
 footer{position:relative;z-index:1;text-align:center;padding:40px 20px 90px;color:var(--muted);font-size:.9rem}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+#yt-wrap{position:fixed;left:-9999px;bottom:0;width:320px;height:180px;opacity:0;pointer-events:none}
