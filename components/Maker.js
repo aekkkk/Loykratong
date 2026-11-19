@@ -41,7 +41,7 @@ export default function Maker() {
           <div key={k.id} className={`pk ${shown === k.id ? 'show' : ''}`} style={{ bottom: k.bottom, animationDuration: '28s' }}
             onClick={() => setShown(shown === k.id ? null : k.id)}
             onAnimationEnd={(e) => { if (e.target === e.currentTarget) setFloating((f) => f.filter((x) => x.id !== k.id)); }}>
-            <div className="wish">“{k.text}”</div>
+            <span className="ripple" /><div className="wish">“{k.text}”</div>
             <Krathong color={k.color} />
           </div>
         ))}

@@ -5,6 +5,9 @@ import Countdown from '../components/Countdown';
 import HeroRiver from '../components/HeroRiver';
 import Maker from '../components/Maker';
 import Reveal from '../components/Reveal';
+import AsciiArt from '../components/AsciiArt';
+import Lanterns from '../components/Lanterns';
+import Parallax from '../components/Parallax';
 
 const meanings = [
   ['🙏', 'ขอบคุณพระแม่คงคา', 'ขอบคุณที่ให้น้ำอุดมสมบูรณ์หล่อเลี้ยงชีวิตและการเพาะปลูกตลอดปี'],
@@ -49,12 +52,14 @@ export default function Home() {
     <>
       <KrathongDefs />
       <Stars />
+      <Lanterns />
       <MusicPlayer />
       <main>
         <section className="hero" id="top">
-          <div className="moon" />
-          <h1>ลอยกระทง</h1>
+          <Parallax className="moon-wrap" />
+          <h1 className="title">{[...'ลอยกระทง'].map((ch, i) => <span key={i} style={{ animationDelay: 0.15 * i + 's' }}>{ch}</span>)}</h1>
           <p className="tag">เทศกาลแห่งแสงเทียน สายน้ำ และคำขอบคุณ</p>
+          <AsciiArt />
           <Countdown />
           <HeroRiver />
         </section>
@@ -66,8 +71,8 @@ export default function Home() {
             ไปลอยในแม่น้ำลำคลอง เพื่อขอบคุณและขอขมาพระแม่คงคา พร้อมอธิษฐานขอให้สิ่งไม่ดีลอยไปกับสายน้ำ
           </Reveal>
           <div className="grid">
-            {meanings.map(([i, t, d]) => (
-              <Reveal key={t} className="card"><div className="ico">{i}</div><h3>{t}</h3><p>{d}</p></Reveal>
+            {meanings.map(([i, t, d], n) => (
+              <Reveal key={t} className="card" delay={n * 120}><div className="ico">{i}</div><h3>{t}</h3><p>{d}</p></Reveal>
             ))}
           </div>
         </section>
@@ -75,22 +80,22 @@ export default function Home() {
         <section id="history">
           <Head title="ประวัติความเป็นมา" sub="จากพิธีโบราณสู่เทศกาลที่คนทั้งโลกรู้จัก" />
           <div className="timeline">
-            {history.map(([t, d]) => (<Reveal key={t} className="tl"><h3>{t}</h3><p>{d}</p></Reveal>))}
+            {history.map(([t, d], n) => (<Reveal key={t} className="tl" delay={n * 100}><h3>{t}</h3><p>{d}</p></Reveal>))}
           </div>
         </section>
 
         <section id="make">
           <Head title="วิธีทำกระทงแบบดั้งเดิม" sub="ง่าย สวย และรักษ์โลก" />
           <ol className="steps">
-            {steps.map(([t, d]) => (<Reveal as="li" key={t}><b>{t}</b><br />{d}</Reveal>))}
+            {steps.map(([t, d], n) => (<Reveal as="li" key={t} delay={n * 110}><b>{t}</b><br />{d}</Reveal>))}
           </ol>
         </section>
 
         <section id="regions">
           <Head title="ลอยกระทงทั่วไทย" sub="แต่ละภาคมีเอกลักษณ์ของตัวเอง" />
           <div className="grid">
-            {regions.map(([t, r, d]) => (
-              <Reveal key={t} className="card region"><h3>{t}</h3><small>{r}</small><p>{d}</p></Reveal>
+            {regions.map(([t, r, d], n) => (
+              <Reveal key={t} className="card region" delay={n * 120}><h3>{t}</h3><small>{r}</small><p>{d}</p></Reveal>
             ))}
           </div>
         </section>
@@ -103,7 +108,7 @@ export default function Home() {
         <section id="tips">
           <Head title="ลอยกระทงอย่างรักษ์โลก" sub="ให้สายน้ำยังสวยงามสำหรับปีต่อๆ ไป" />
           <ul className="tips">
-            {tips.map((t) => (<Reveal as="li" key={t}>{t}</Reveal>))}
+            {tips.map((t, n) => (<Reveal as="li" key={t} delay={n * 90}>{t}</Reveal>))}
           </ul>
         </section>
       </main>
