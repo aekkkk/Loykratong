@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
  * เพลงตอนเปิดเว็บ
  * 1) ถ้ามีไฟล์ public/assets/loykratong.mp3 (.ogg/.m4a) จะเล่นไฟล์นั้น
  * 2) ถ้าไม่มี จะสังเคราะห์ทำนองสไตล์เพลงลอยกระทงด้วย Web Audio
- * เบราว์เซอร์บล็อกเสียงอัตโนมัติ จึงเริ่มเพลงเมื่อผู้ใช้แตะหน้า splash
+ * เบราว์เซอร์บล็อกเสียงอัตโนมัติ จึงพยายามเล่นทันทีที่เปิดเว็บ และเริ่มเมื่อผู้ใช้โต้ตอบครั้งแรก
  */
 const YT_ID = 'CMEkHkX_dkg';
 const SRC = ['/assets/loykratong.mp3', '/assets/loykratong.ogg', '/assets/loykratong.m4a'];
@@ -25,9 +25,8 @@ const beat = 60 / 104;
 const freq = (s) => 261.63 * Math.pow(2, s / 12);
 
 export default function MusicPlayer() {
-  const [entered, setEntered] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const e = useRef({ ctx: null, master: null, file: null, useFile: false, timer: null, nextT: 0, step: 0, ready: null, playing: false, yt: null, ytOk: false });
+  const e = useRef({ ctx: null, master: null, file: null, useFile: false, timer: null, nextT: 0, step: 0, ready: null, playing: false, yt: null, ytOk: false, userPaused: false, ytFailed: false });
 
   // probe for an audio file once
   useEffect(() => {
@@ -48,9 +47,9 @@ export default function MusicPlayer() {
       s.yt = new window.YT.Player('yt-player', {
         videoId: YT_ID, playerVars: { playsinline: 1, controls: 0, rel: 0 },
         events: {
-          onReady: () => { s.ytOk = true; if (s.playing) s.yt.playVideo(); },
-          onStateChange: (ev) => { if (ev.data === 0) { s.yt.seekTo(0); s.yt.playVideo(); } },
-          onError: () => { s.ytOk = false; if (s.playing) fallback(); },
+          onReady: () => { s.ytOk = true; if (!s.userPaused) { s.playing = true; setPlaying(true); s.yt.playVideo(); } },
+          onStateChange: (ev) => { if (ev.data === 0) { s.yt.seekTo(0); s.yt.playVideo(); } else if (ev.data === 1) setPlaying(true); else if (ev.data === 2) setPlaying(false); },
+          onError: () => { s.ytOk = false; s.ytFailed = true; s.yt = null; if (s.playing) fallback(); },
         },
       });
     };
@@ -60,7 +59,16 @@ export default function MusicPlayer() {
       window.onYouTubeIframeAPIReady = () => { prev?.(); mk(); };
       const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(sc);
     }
-    return () => { clearInterval(s.timer); s.file?.pause(); s.ctx?.close(); try { s.yt?.destroy(); } catch {} };
+    // ไม่มีหน้า splash: พยายามเล่นทันที ถ้าเบราว์เซอร์บล็อก จะเริ่มเมื่อผู้ใช้โต้ตอบครั้งแรก
+    const first = () => {
+      if (s.userPaused) return;
+      if (s.ytOk) { if (s.yt.getPlayerState?.() !== 1) s.yt.playVideo(); }
+      else if (s.ytFailed && !s.playing) play();
+    };
+    const evs = ['pointerdown', 'keydown', 'touchstart', 'wheel'];
+    evs.forEach((n) => addEventListener(n, first, { once: true, passive: true }));
+    const failTimer = setTimeout(() => { if (!s.ytOk) s.ytFailed = true; }, 5000);
+    return () => { clearTimeout(failTimer); evs.forEach((n) => removeEventListener(n, first)); clearInterval(s.timer); s.file?.pause(); s.ctx?.close(); try { s.yt?.destroy(); } catch {} };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -126,30 +134,20 @@ export default function MusicPlayer() {
 
   const play = async () => {
     const s = e.current; if (s.playing) return;
-    s.playing = true; setPlaying(true);
+    s.userPaused = false; s.playing = true; setPlaying(true);
     if (s.ytOk) { s.yt.playVideo(); return; } // เรียกทันทีเพื่อคงสิทธิ์จากการแตะของผู้ใช้
-    if (!s.yt) fallback(); // else: onReady จะเล่นเอง
+    if (!s.yt || s.ytFailed) fallback(); // else: onReady จะเล่นเอง
   };
   const pause = () => {
     const s = e.current; if (!s.playing) return;
-    s.playing = false; setPlaying(false);
+    s.userPaused = true; s.playing = false; setPlaying(false);
     if (s.ytOk) s.yt.pauseVideo();
     else if (s.useFile) s.file?.pause(); else stopSynth();
   };
 
-  const enter = () => { if (entered) return; setEntered(true); play(); };
 
   return (
     <>
-      <div id="splash" className={entered ? 'hide' : ''} role="button" tabIndex={entered ? -1 : 0}
-        aria-label="เข้าสู่เว็บไซต์พร้อมเปิดเพลง" onClick={enter}
-        onKeyDown={(ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); enter(); } }}>
-        <div className="moon" />
-        <h1>วันลอยกระทง</h1>
-        <p>วันเพ็ญเดือนสิบสอง น้ำก็นองเต็มตลิ่ง…</p>
-        <button className="btn" type="button">🪷 เข้าสู่เทศกาล + เปิดเพลง 🎶</button>
-        <p style={{ fontSize: '.85rem' }}>แตะที่ใดก็ได้เพื่อเริ่ม</p>
-      </div>
       <div id="yt-wrap" aria-hidden="true"><div id="yt-player" /></div>
       <button id="musicBtn" className={playing ? 'playing' : ''} aria-label="เปิด/ปิดเพลง" title="เปิด/ปิดเพลง"
         onClick={() => (playing ? pause() : play())}>♪</button>

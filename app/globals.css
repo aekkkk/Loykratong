@@ -14,29 +14,6 @@ h1,h2,h3{font-family:'Mali','Sarabun',sans-serif;line-height:1.3}
 a{color:var(--gold)}
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-/* ---------- splash ---------- */
-#splash{
-  position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1.2rem;text-align:center;padding:24px;cursor:pointer;
-  background:radial-gradient(circle at 50% 35%,#1b2a6b 0%,#070b24 70%);
-  transition:opacity 1s ease,visibility 1s;
-}
-#splash.hide{opacity:0;visibility:hidden}
-#splash .moon{width:110px;height:110px;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,#fffbe6,#ffe9a8 60%,#f3c969);
-  box-shadow:0 0 60px 20px rgba(255,220,130,.45);animation:glow 3s ease-in-out infinite}
-#splash h1{font-size:clamp(2rem,7vw,3.4rem);color:var(--gold);text-shadow:0 0 24px rgba(255,209,102,.5)}
-#splash p{color:var(--muted)}
-.btn{
-  font-family:'Mali',sans-serif;font-size:1.1rem;border:0;cursor:pointer;color:#2a1a00;
-  padding:.8rem 2rem;border-radius:999px;background:linear-gradient(135deg,var(--gold),var(--amber));
-  box-shadow:0 6px 24px rgba(255,159,28,.45);transition:transform .2s,box-shadow .2s;
-}
-.btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 10px 30px rgba(255,159,28,.6)}
-#splash .btn{animation:pulse 1.8s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-@keyframes glow{0%,100%{box-shadow:0 0 50px 15px rgba(255,220,130,.4)}50%{box-shadow:0 0 80px 30px rgba(255,220,130,.65)}}
-
 /* ---------- music control ---------- */
 #musicBtn{
   position:fixed;right:16px;bottom:16px;z-index:50;width:54px;height:54px;border-radius:50%;
