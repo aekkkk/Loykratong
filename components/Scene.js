@@ -19,7 +19,7 @@ export default function Scene() {
   const [count, setCount] = useState(0);
   const [create, setCreate] = useState(false);
   const [info, setInfo] = useState(false);
-  const [hist, setHist] = useState(false);
+  const [hist, setHist] = useState(true); // เปิดหน้าประวัติก่อนเมื่อเข้าเว็บ
   const [name, setName] = useState('');
   const [wish, setWish] = useState('');
   const [color, setColor] = useState(COLORS[0]);
