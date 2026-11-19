@@ -1,53 +1,8 @@
 import { KrathongDefs } from '../components/Krathong';
 import Stars from '../components/Stars';
-import MusicPlayer from '../components/MusicPlayer';
-import Countdown from '../components/Countdown';
-import HeroRiver from '../components/HeroRiver';
-import Maker from '../components/Maker';
-import Reveal from '../components/Reveal';
-import AsciiArt from '../components/AsciiArt';
-import Building from '../components/Building';
-import Compare from '../components/Compare';
 import Lanterns from '../components/Lanterns';
-import Parallax from '../components/Parallax';
-
-const meanings = [
-  ['🙏', 'ขอบคุณพระแม่คงคา', 'ขอบคุณที่ให้น้ำอุดมสมบูรณ์หล่อเลี้ยงชีวิตและการเพาะปลูกตลอดปี'],
-  ['🌊', 'ขอขมา', 'ขออภัยที่ได้ใช้น้ำ ทิ้งของเสีย หรือทำให้แหล่งน้ำสกปรก'],
-  ['🪔', 'บูชารอยพระพุทธบาท', 'ตามความเชื่อ ลอยเพื่อบูชารอยพระพุทธบาทที่หาดทรายแม่น้ำนัมมทานที'],
-  ['✨', 'ลอยความทุกข์', 'ตัดผมหรือเล็บใส่กระทง เพื่อให้เคราะห์ร้ายลอยตามน้ำไป และเริ่มต้นสิ่งใหม่ที่ดี'],
-];
-const history = [
-  ['ต้นกำเนิดจากอินเดีย', 'เชื่อกันว่าได้รับอิทธิพลจากพิธีลอยโคมและบูชาแม่น้ำในศาสนาพราหมณ์–ฮินดู เรียกว่า “พิธีจองเปรียง” (ลอยประทีปบูชาพระอิศวร)'],
-  ['ผสมผสานกับพุทธศาสนา', 'เมื่อพุทธศาสนาแพร่หลาย พิธีนี้ปรับเป็นการบูชาพระพุทธเจ้า โดยเฉพาะรอยพระพุทธบาทและพระจุฬามณีเจดีย์บนสวรรค์'],
-  ['ตำนานนางนพมาศ (สมัยสุโขทัย)', 'ตามตำนาน นางนพมาศ สนมของพระร่วงได้ประดิษฐ์กระทงเป็นรูปดอกบัวถวายพระร่วง แม้นักประวัติศาสตร์จะสันนิษฐานว่าเป็นเรื่องแต่งขึ้นภายหลัง'],
-  ['สมัยรัตนโกสินทร์ – ปัจจุบัน', 'ประเพณีแพร่หลายทั่วประเทศ ปัจจุบันรณรงค์ให้ใช้กระทงจากวัสดุธรรมชาติที่ย่อยสลายได้ เพื่อรักษาสิ่งแวดล้อม'],
-];
-const steps = [
-  ['ฐานกระทง', 'ตัดต้นกล้วยเป็นแว่นหนาประมาณ 1–2 นิ้ว ใช้เป็นฐานลอยน้ำ'],
-  ['ใบตอง', 'พับใบตองเป็นกลีบแหลม เย็บด้วยไม้กลัดรอบฐาน ๒–๓ ชั้น'],
-  ['ดอกไม้', 'ประดับด้วยดอกบัว ดอกดาวเรือง กล้วยไม้ ให้สวยงาม'],
-  ['ธูปเทียน', 'ปักเทียน ๑ เล่ม และธูป ๓ ดอก ตรงกลาง'],
-  ['อธิษฐาน', 'จุดเทียน ธูป ตั้งจิตอธิษฐาน แล้วค่อยๆ วางลงน้ำ'],
-];
-const regions = [
-  ['🏮 เชียงใหม่ — ยี่เป็ง', 'ภาคเหนือ', 'ชาวล้านนาเรียก “ประเพณียี่เป็ง” (ยี่ = สอง, เป็ง = เพ็ญ) ปล่อยโคมลอยและประดับโคมไฟทั่วเมือง ขบวนแห่งดงามตระการตา'],
-  ['🏯 สุโขทัย — เผาเทียนเล่นไฟ', 'ภาคกลาง', 'งานใหญ่ที่อุทยานประวัติศาสตร์สุโขทัย มีการแสดงแสงสีเสียงเล่าตำนานนางนพมาศ และขบวนแห่กระทงโบราณ'],
-  ['🚣 ตาก — กระทงสาย', 'ภาคเหนือตอนล่าง', 'ชาวตากร้อยกระทงเล็กๆ ต่อกันเป็นสายยาว ลอยตามแม่น้ำปิง สว่างไสวสวยงามเป็นเอกลักษณ์'],
-  ['🐉 หนองคาย — พญานาค', 'ภาคอีสาน', 'ลอยเรือไฟและกระทงริมโขง ผู้คนต่างเชื่อว่าพญานาคมาร่วมงาน'],
-];
-const tips = [
-  'เลือกกระทงจากใบตอง ต้นกล้วย หรือวัสดุธรรมชาติที่ย่อยสลายได้',
-  'หลีกเลี่ยงโฟม ตะปู ลวด ลวดเย็บกระดาษ และพลาสติก',
-  'พิจารณาลอยกระทงร่วมกันเป็นกลุ่มเพื่อลดจำนวนกระทง',
-  'ระวังไฟเทียนและพลุ ดูแลเด็กใกล้แหล่งน้ำ',
-  'ทิ้งขยะให้ถูกที่ ไม่ทิ้งลงแม่น้ำ',
-];
-
-const Head = ({ title, sub }) => (<>
-  <Reveal as="h2">{title}</Reveal>
-  <Reveal as="p" className="sub">{sub}</Reveal>
-</>);
+import MusicPlayer from '../components/MusicPlayer';
+import Scene from '../components/Scene';
 
 export default function Home() {
   return (
@@ -55,83 +10,8 @@ export default function Home() {
       <KrathongDefs />
       <Stars />
       <Lanterns />
+      <Scene />
       <MusicPlayer />
-      <main>
-        <section className="hero" id="top">
-          <Parallax className="moon-wrap" />
-          <h1 className="title">{[...'ลอยกระทง'].map((ch, i) => <span key={i} style={{ animationDelay: 0.15 * i + 's' }}>{ch}</span>)}</h1>
-          <p className="tag">เทศกาลแห่งแสงเทียน สายน้ำ และคำขอบคุณ</p>
-          <Countdown />
-          <div className="bld-scene" aria-hidden="true">
-            <div className="bld-main"><Building tone="night" /></div>
-            <div className="bld-reflect"><div><Building tone="night" /></div></div>
-          </div>
-          <HeroRiver />
-        </section>
-
-        <section id="candle" style={{ textAlign: 'center', paddingBottom: 20 }}>
-          <Reveal><AsciiArt /></Reveal>
-          <Reveal as="p" className="sub">จุดเทียน อธิษฐาน แล้วปล่อยให้ลอยไปกับสายน้ำ</Reveal>
-        </section>
-
-        <section id="meaning">
-          <Head title="ลอยกระทงคืออะไร" sub="ประเพณีไทยที่จัดขึ้นในคืนวันเพ็ญเดือน ๑๒" />
-          <Reveal as="p" className="lead">
-            ลอยกระทงเป็นประเพณีที่คนไทยนำ “กระทง” ซึ่งประดิษฐ์จากวัสดุธรรมชาติ ตกแต่งด้วยดอกไม้ ธูป เทียน
-            ไปลอยในแม่น้ำลำคลอง เพื่อขอบคุณและขอขมาพระแม่คงคา พร้อมอธิษฐานขอให้สิ่งไม่ดีลอยไปกับสายน้ำ
-          </Reveal>
-          <div className="grid">
-            {meanings.map(([i, t, d], n) => (
-              <Reveal key={t} className="card" delay={n * 120}><div className="ico">{i}</div><h3>{t}</h3><p>{d}</p></Reveal>
-            ))}
-          </div>
-        </section>
-
-        <section id="history">
-          <Head title="ประวัติความเป็นมา" sub="จากพิธีโบราณสู่เทศกาลที่คนทั้งโลกรู้จัก" />
-          <div className="timeline">
-            {history.map(([t, d], n) => (<Reveal key={t} className="tl" delay={n * 100}><h3>{t}</h3><p>{d}</p></Reveal>))}
-          </div>
-        </section>
-
-        <section id="heritage">
-          <Head title="ตึกเก่าเล่าเรื่อง" sub="อาคารอิฐแดงสไตล์โคโลเนียลริมน้ำ ก่อนและหลังการปรับปรุง" />
-          <Reveal className="lead">
-            ริมน้ำที่ผู้คนมาลอยกระทงมักมีอาคารเก่าแก่เป็นฉากหลัง ลากแถบเลื่อนเพื่อดูอาคารก่อนและหลังการบูรณะ
-            ที่คืนสีสันให้ผนังอิฐแดงและหลังคาให้กลับมาสวยสง่าอีกครั้ง
-          </Reveal>
-          <Reveal><Compare /></Reveal>
-        </section>
-
-        <section id="make">
-          <Head title="วิธีทำกระทงแบบดั้งเดิม" sub="ง่าย สวย และรักษ์โลก" />
-          <ol className="steps">
-            {steps.map(([t, d], n) => (<Reveal as="li" key={t} delay={n * 110}><b>{t}</b><br />{d}</Reveal>))}
-          </ol>
-        </section>
-
-        <section id="regions">
-          <Head title="ลอยกระทงทั่วไทย" sub="แต่ละภาคมีเอกลักษณ์ของตัวเอง" />
-          <div className="grid">
-            {regions.map(([t, r, d], n) => (
-              <Reveal key={t} className="card region" delay={n * 120}><h3>{t}</h3><small>{r}</small><p>{d}</p></Reveal>
-            ))}
-          </div>
-        </section>
-
-        <section id="float">
-          <Head title="ลอยกระทงออนไลน์" sub="เขียนคำอธิษฐาน เลือกสีกระทง แล้วปล่อยให้ลอยไปกับสายน้ำ" />
-          <Maker />
-        </section>
-
-        <section id="tips">
-          <Head title="ลอยกระทงอย่างรักษ์โลก" sub="ให้สายน้ำยังสวยงามสำหรับปีต่อๆ ไป" />
-          <ul className="tips">
-            {tips.map((t, n) => (<Reveal as="li" key={t} delay={n * 90}>{t}</Reveal>))}
-          </ul>
-        </section>
-      </main>
-      <footer>🌕 สุขสันต์วันลอยกระทง · ขอให้ทุกคนมีความสุข 🌕</footer>
     </>
   );
 }
