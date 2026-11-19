@@ -1,17 +1,7 @@
-import { KrathongDefs } from '../components/Krathong';
-import Stars from '../components/Stars';
-import Lanterns from '../components/Lanterns';
-import MusicPlayer from '../components/MusicPlayer';
-import Scene from '../components/Scene';
+import HistoryPage from '../components/HistoryPage';
+
+export const metadata = { title: 'ประวัติลอยกระทง – เรื่องราวของประเพณีแห่งแสงเทียนและสายน้ำ' };
 
 export default function Home() {
-  return (
-    <>
-      <KrathongDefs />
-      <Stars />
-      <Lanterns />
-      <Scene />
-      <MusicPlayer />
-    </>
-  );
+  return <HistoryPage />;
 }

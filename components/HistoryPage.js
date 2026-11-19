@@ -1,7 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Reveal from './Reveal';
 import Krathong from './Krathong';
+import { STORE_KEY } from '../lib/krathong';
 
 const TIMELINE = [
   ['พิธีโบราณที่ริมน้ำ', 'ผู้คนในแถบลุ่มน้ำตั้งแต่โบราณมีพิธีบูชาแม่น้ำและลอยประทีปโคมไฟ ขอบคุณน้ำที่หล่อเลี้ยงชีวิต'],
@@ -18,21 +20,25 @@ const FACTS = [
   ['ธูป เทียน ดอกไม้ แทนอะไร', 'ธูป ๓ ดอกแทนพระรัตนตรัย เทียนแทนแสงสว่างแห่งปัญญา ดอกไม้แทนการบูชา'],
 ];
 
-export default function HistoryPanel({ mine, onClose, onClear }) {
+export default function HistoryPage() {
   const [tab, setTab] = useState('story');
+  const [mine, setMine] = useState([]);
   useEffect(() => {
-    const k = (e) => { if (e.key === 'Escape') onClose(); };
-    addEventListener('keydown', k);
-    return () => removeEventListener('keydown', k);
-  }, [onClose]);
+    try { setMine(JSON.parse(localStorage.getItem(STORE_KEY) || 'null')?.mine || []); } catch {}
+  }, []);
+  const onClear = () => {
+    setMine([]);
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ mine: [], count: 0 })); } catch {}
+  };
   const list = [...mine].reverse();
 
   return (
-    <div className="info-panel" role="dialog" aria-modal="true" aria-label="ประวัติ">
-      <button className="info-close" onClick={onClose} aria-label="ปิด">✕</button>
+    <div className="page-scroll">
       <div className="info-scroll">
         <section style={{ paddingBottom: 10 }}>
-          <h2>ประวัติ</h2>
+          <h1 className="page-title">ประวัติลอยกระทง</h1>
+          <p className="sub">เรื่องราวของประเพณีแห่งแสงเทียนและสายน้ำ</p>
+          <p style={{ textAlign: 'center', marginBottom: 18 }}><Link href="/float" className="btn go-btn">🪷 ไปลอยกระทง</Link></p>
           <div className="tabs" role="tablist">
             <button role="tab" aria-selected={tab === 'story'} className={tab === 'story' ? 'on' : ''} onClick={() => setTab('story')}>📜 ประวัติลอยกระทง</button>
             <button role="tab" aria-selected={tab === 'mine'} className={tab === 'mine' ? 'on' : ''} onClick={() => setTab('mine')}>🪷 กระทงของฉัน ({mine.length})</button>
@@ -75,7 +81,7 @@ export default function HistoryPanel({ mine, onClose, onClear }) {
             )}
           </section>
         )}
-        <div style={{ height: 60 }} />
+        <p style={{ textAlign: 'center', padding: '10px 0 90px' }}><Link href="/float" className="btn go-btn">🪷 ไปลอยกระทง</Link></p>
       </div>
     </div>
   );

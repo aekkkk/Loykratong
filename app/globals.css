@@ -271,3 +271,8 @@ html,body{height:100%;overflow:hidden}
 .tabs button.on{background:linear-gradient(135deg,var(--gold),var(--amber));color:#2a1a00;border-color:transparent}
 .hist-card{text-align:center;display:flex;flex-direction:column;gap:.3rem;align-items:center}
 .hist-kr svg{width:90px}.hist-wish{font-style:italic}.hist-date{color:var(--muted)}
+
+.page-scroll{position:fixed;inset:0;z-index:2;overflow-y:auto}
+.page-title{font-size:clamp(2.2rem,7vw,3.6rem);color:var(--gold);text-align:center;text-shadow:0 0 28px rgba(255,209,102,.5)}
+a.btn,a.info-btn{text-decoration:none;display:inline-block}
+.go-btn{font-size:1.2rem}

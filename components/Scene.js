@@ -1,15 +1,15 @@
 'use client';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import Building from './Building';
 import Krathong from './Krathong';
 import Fireworks from './Fireworks';
 import Lotus from './Lotus';
 import InfoPanel from './InfoPanel';
-import HistoryPanel from './HistoryPanel';
-import { COLORS, chime } from '../lib/krathong';
+import { COLORS, STORE_KEY, chime } from '../lib/krathong';
 
 const LANES = [{ scale: 0.6, bright: 0.75 }, { scale: 0.8, bright: 0.9 }, { scale: 1, bright: 1 }];
-const KEY = 'loykratong.v1';
+const KEY = STORE_KEY;
 
 function store(fn) { try { return fn(); } catch { return undefined; } }
 
@@ -19,13 +19,11 @@ export default function Scene() {
   const [count, setCount] = useState(0);
   const [create, setCreate] = useState(false);
   const [info, setInfo] = useState(false);
-  const [hist, setHist] = useState(true); // เปิดหน้าประวัติก่อนเมื่อเข้าเว็บ
   const [name, setName] = useState('');
   const [wish, setWish] = useState('');
   const [color, setColor] = useState(COLORS[0]);
   const [shown, setShown] = useState(null);
   const closeInfo = useCallback(() => setInfo(false), []);
-  const closeHist = useCallback(() => setHist(false), []);
 
   useEffect(() => {
     setAmbient(LANES.flatMap((l, li) => Array.from({ length: 5 }, (_, i) => {
@@ -103,7 +101,7 @@ export default function Scene() {
 
       <button className="btn create-btn" onClick={() => setCreate(true)}>🪷 สร้างกระทง</button>
       <button className="info-btn" onClick={() => setInfo(true)}>📖 เรื่องลอยกระทง</button>
-      <button className="info-btn hist-btn" onClick={() => setHist(true)}>📜 ประวัติ</button>
+      <Link href="/" className="info-btn hist-btn">📜 ประวัติ</Link>
 
       {create && (
         <div className="modal-bg" onClick={(e) => e.target === e.currentTarget && setCreate(false)}>
@@ -126,7 +124,6 @@ export default function Scene() {
         </div>
       )}
       {info && <InfoPanel onClose={closeInfo} />}
-      {hist && <HistoryPanel mine={mine} onClose={closeHist} onClear={() => { setMine([]); setCount(0); persist([], 0); }} />}
     </div>
   );
 }
