@@ -6,6 +6,8 @@ import HeroRiver from '../components/HeroRiver';
 import Maker from '../components/Maker';
 import Reveal from '../components/Reveal';
 import AsciiArt from '../components/AsciiArt';
+import Building from '../components/Building';
+import Compare from '../components/Compare';
 import Lanterns from '../components/Lanterns';
 import Parallax from '../components/Parallax';
 
@@ -59,9 +61,17 @@ export default function Home() {
           <Parallax className="moon-wrap" />
           <h1 className="title">{[...'ลอยกระทง'].map((ch, i) => <span key={i} style={{ animationDelay: 0.15 * i + 's' }}>{ch}</span>)}</h1>
           <p className="tag">เทศกาลแห่งแสงเทียน สายน้ำ และคำขอบคุณ</p>
-          <AsciiArt />
           <Countdown />
+          <div className="bld-scene" aria-hidden="true">
+            <div className="bld-main"><Building tone="night" /></div>
+            <div className="bld-reflect"><div><Building tone="night" /></div></div>
+          </div>
           <HeroRiver />
+        </section>
+
+        <section id="candle" style={{ textAlign: 'center', paddingBottom: 20 }}>
+          <Reveal><AsciiArt /></Reveal>
+          <Reveal as="p" className="sub">จุดเทียน อธิษฐาน แล้วปล่อยให้ลอยไปกับสายน้ำ</Reveal>
         </section>
 
         <section id="meaning">
@@ -82,6 +92,15 @@ export default function Home() {
           <div className="timeline">
             {history.map(([t, d], n) => (<Reveal key={t} className="tl" delay={n * 100}><h3>{t}</h3><p>{d}</p></Reveal>))}
           </div>
+        </section>
+
+        <section id="heritage">
+          <Head title="ตึกเก่าเล่าเรื่อง" sub="อาคารอิฐแดงสไตล์โคโลเนียลริมน้ำ ก่อนและหลังการปรับปรุง" />
+          <Reveal className="lead">
+            ริมน้ำที่ผู้คนมาลอยกระทงมักมีอาคารเก่าแก่เป็นฉากหลัง ลากแถบเลื่อนเพื่อดูอาคารก่อนและหลังการบูรณะ
+            ที่คืนสีสันให้ผนังอิฐแดงและหลังคาให้กลับมาสวยสง่าอีกครั้ง
+          </Reveal>
+          <Reveal><Compare /></Reveal>
         </section>
 
         <section id="make">
