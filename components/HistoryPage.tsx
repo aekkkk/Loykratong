@@ -10,7 +10,7 @@ import { DesignButton } from "@/components/ui/DesignButton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { StatusBadge, CountBadge } from "@/components/ui/Badge";
 import Krathong from "@/components/Krathong";
-import AsciiArt from "@/components/AsciiArt";
+import AsciiRiver from "@/components/AsciiRiver";
 import Credit from "@/components/Credit";
 import ThemeSwitch from "@/components/ThemeSwitch";
 import Countdown, { useCountdown } from "@/components/Countdown";
@@ -241,7 +241,7 @@ export default function HistoryPage() {
                 actionLabel="ไปลอยกระทง"
                 actionIcon={<Flower2 />}
                 onAction={go}
-                className="!text-[var(--color-text)]"
+                className="w-full !text-[var(--color-text)]"
               />
             </div>
           ) : (
@@ -271,13 +271,13 @@ export default function HistoryPage() {
         </Section>
       </main>
 
-      <footer className="mt-20 border-t border-[var(--color-border)]">
-        <div className="mx-auto flex max-w-[680px] flex-col items-center gap-4 px-5 pt-12 pb-28 text-center">
-          <div className="rounded-[var(--radius-panel)] bg-[var(--color-surface-muted)] px-6 py-5 shadow-[var(--shadow-border)]">
-            <AsciiArt />
-          </div>
-          <p className="type-h5 m-0 mt-2 flex items-center gap-2"><Moon size={18} aria-hidden="true" /> สุขสันต์วันลอยกระทง</p>
-          <Credit className="type-ui m-0 text-[var(--color-text-muted)]" />
+      <footer className="relative mt-20 overflow-hidden bg-gradient-to-b from-[#0a0f24] via-[#0d1532] to-[#0a1a33] text-white">
+        <div className="mx-auto flex max-w-[680px] flex-col items-center gap-2 px-5 pt-14 text-center">
+          <p className="type-h5 m-0 flex items-center gap-2"><Moon size={18} aria-hidden="true" /> สุขสันต์วันลอยกระทง</p>
+          <Credit className="type-ui m-0 text-white/60" />
+        </div>
+        <div className="mt-6 pb-16">
+          <AsciiRiver />
         </div>
       </footer>
     </div>
