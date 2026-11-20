@@ -66,7 +66,7 @@ h2{font-size:clamp(1.7rem,4.5vw,2.4rem);color:var(--gold);margin-bottom:.4rem;te
 @keyframes flicker{from{transform:scale(1,1) skewX(-2deg);opacity:.9}to{transform:scale(.88,1.15) skewX(3deg);opacity:1}}
 
 /* cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:18px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;backdrop-filter:blur(6px)}
 .card .ico{font-size:2.2rem}
 .card h3{color:var(--lotus);margin:.3rem 0 .4rem;font-size:1.2rem}
