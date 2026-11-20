@@ -33,12 +33,12 @@ export default function AsciiArt() {
   const w1 = (WAVE + WAVE).slice(f % WAVE.length, (f % WAVE.length) + 31);
   const w2 = (WAVE + WAVE).slice((WAVE.length - (f % WAVE.length)) % WAVE.length + 7).slice(0, 31);
   return (
-    <pre className="ascii" aria-label="ภาพกระทงดอกบัวแบบ ASCII art">
-      <span className="fl">{FLAME[f % 3].join('\n')}</span>{'\n'}
-      <span className="cd">{'              |=|'}</span>{'\n'}
-      <span className="lt">{BODY}</span>{'\n'}
-      <span className="wv">{w1}</span>{'\n'}
-      <span className="wv dim">{w2}</span>
+    <pre className="m-0 inline-block text-left font-mono text-[11px] leading-[1.3] text-neutral-400 sm:text-[12.5px]" aria-label="ภาพกระทงดอกบัวแบบ ASCII art">
+      <span className="text-amber-500">{FLAME[f % 3].join('\n')}</span>{'\n'}
+      <span className="text-neutral-500">{'              |=|'}</span>{'\n'}
+      <span className="text-pink-400">{BODY}</span>{'\n'}
+      <span className="text-sky-400">{w1}</span>{'\n'}
+      <span className="text-sky-400/50">{w2}</span>
     </pre>
   );
 }

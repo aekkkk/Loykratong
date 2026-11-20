@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import Icon from './Icon';
+import { Music, Volume2, VolumeX } from 'lucide-react';
+import { DesignButton } from './ui/DesignButton';
 
 /*
  * เพลงประกอบเว็บ (YouTube: CMEkHkX_dkg)
@@ -141,11 +142,17 @@ export default function MusicPlayer() {
 
   return (
     <>
-      <div id="yt-wrap" aria-hidden="true"><div id="yt-player" /></div>
-      {needTap && !on && <button className="tap-hint" type="button"><Icon name="volume" /> แตะเพื่อเปิดเพลง</button>}
-      <button id="musicBtn" className={on ? 'playing' : ''} aria-label={on ? 'ปิดเพลง' : 'เปิดเพลง'} title={on ? 'ปิดเพลง' : 'เปิดเพลง'} onClick={toggle}>
-        <Icon name={on ? 'music' : 'mute'} />
-      </button>
+      <div id="yt-wrap" aria-hidden="true" style={{ position: 'fixed', right: 0, bottom: 0, width: 400, height: 225, opacity: 0, pointerEvents: 'none', zIndex: -1 }}><div id="yt-player" /></div>
+      <div className="fixed right-4 bottom-4 z-[70] flex items-center gap-2">
+        {needTap && !on && (
+          <DesignButton variant="secondary" size="sm" className="tap-hint">
+            <Volume2 aria-hidden="true" /> แตะเพื่อเปิดเพลง
+          </DesignButton>
+        )}
+        <DesignButton id="musicBtn" variant="secondary" size="sm" aria-label={on ? 'ปิดเพลง' : 'เปิดเพลง'} title={on ? 'ปิดเพลง' : 'เปิดเพลง'} onClick={toggle} className="!px-2.5">
+          {on ? <Music aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
+        </DesignButton>
+      </div>
     </>
   );
 }
