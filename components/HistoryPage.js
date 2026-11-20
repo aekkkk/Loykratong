@@ -71,7 +71,6 @@ export default function HistoryPage() {
         <section style={{ textAlign: 'center', paddingBottom: 20 }}>
           <h1 className="page-title">ลอยกระทง</h1>
           <p className="sub">ประวัติและเรื่องราวของประเพณีแห่งแสงเทียนและสายน้ำ</p>
-          <AsciiArt />
           <Countdown />
           <p style={{ marginTop: 18 }}><GoBtn /></p>
         </section>
@@ -148,7 +147,13 @@ export default function HistoryPage() {
           )}
         </section>
 
-        <p style={{ textAlign: 'center', padding: '10px 0 90px' }}><GoBtn /></p>
+        <p style={{ textAlign: 'center', padding: '10px 0 30px' }}><GoBtn /></p>
+
+        <footer className="site-footer">
+          <AsciiArt />
+          <p className="ft-title">สุขสันต์วันลอยกระทง</p>
+          <p className="ft-sub">ขอให้ความทุกข์ลอยไปกับสายน้ำ และความสุขสว่างไสวเหมือนแสงจันทร์วันเพ็ญ 🌕</p>
+        </footer>
       </div>
     </div>
   );

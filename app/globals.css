@@ -279,3 +279,13 @@ a.btn,a.info-btn{text-decoration:none;display:inline-block}
 
 .hist-btn{left:14px!important}
 @media(max-width:700px){.hist-btn{bottom:90px!important}}
+
+/* footer + ascii */
+.site-footer{text-align:center;padding:40px 16px 110px;border-top:1px solid var(--line);
+  background:linear-gradient(180deg,transparent,rgba(6,24,47,.85));}
+.site-footer .ascii{margin:0 auto 12px;animation:none;font-size:clamp(.62rem,2.6vw,.95rem)}
+.ascii .lt{color:var(--lotus);text-shadow:0 0 10px rgba(255,140,190,.55)}
+.ascii .cd{color:#fff4d6;text-shadow:0 0 8px rgba(255,230,170,.7)}
+.ascii .wv.dim{opacity:.55}
+.ft-title{font-family:'Mali';font-size:1.4rem;color:var(--gold);text-shadow:0 0 18px rgba(255,209,102,.5)}
+.ft-sub{color:var(--muted);font-size:.95rem;max-width:520px;margin:.3rem auto 0}
