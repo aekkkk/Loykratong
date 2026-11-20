@@ -20,12 +20,11 @@ export default function Watercolor() {
   return (
     <>
       <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
-        <filter id="wc-rough"><feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="3" seed="4" /><feDisplacementMap in="SourceGraphic" scale="38" /></filter>
+        
         <filter id="wc-grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .55  0 0 0 .55 0" /></filter>
       </svg>
       <div className="wc-blooms" aria-hidden="true"><i /><i /><i /><i /></div>
       <svg className="wc-grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#wc-grain)" /></svg>
-      <div className="wc-frame" aria-hidden="true" />
       <Branch className="tl" />
       <Branch className="br" />
     </>
