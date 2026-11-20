@@ -1,5 +1,6 @@
 // ตึกอิฐแดงสไตล์โคโลเนียล 3 ชั้น (วาดด้วย SVG ล้อตามภาพอ้างอิง)
 const PALETTES = {
+  dusk:  { wall: '#b65d55', wall2: '#9c4d4b', roof: '#5b3f84', trim: '#f4e8dc', base: '#e5d6cd', win: '#ffd98a', lit: true },
   night: { wall: '#a8432f', wall2: '#8f3626', roof: '#5e1f1f', trim: '#e8dfcc', base: '#cfc5b0', win: '#ffd98a', lit: true },
   old:   { wall: '#c27a5c', wall2: '#a8664b', roof: '#c9651f', trim: '#cdc7bb', base: '#bfb9ad', win: '#6f7d8c', lit: false },
   new:   { wall: '#b5432d', wall2: '#9c3624', roof: '#6f2323', trim: '#f1ebdd', base: '#e2dccd', win: '#9dbbdc', lit: false },

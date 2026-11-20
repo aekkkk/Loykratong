@@ -8,7 +8,7 @@ export default function Stars() {
     let s = [], raf, meteors = [];
     const size = () => {
       c.width = innerWidth; c.height = innerHeight;
-      s = Array.from({ length: Math.floor((innerWidth * innerHeight) / 6500) }, () => ({
+      s = Array.from({ length: Math.floor((innerWidth * innerHeight) / 16000) }, () => ({
         x: Math.random() * c.width, y: Math.random() * c.height,
         r: Math.random() * 1.4 + 0.2, p: Math.random() * 6.28, v: 0.4 + Math.random() * 1.2,
       }));
@@ -19,9 +19,10 @@ export default function Stars() {
       x.clearRect(0, 0, c.width, c.height);
       for (const o of s) {
         x.globalAlpha = 0.4 + 0.6 * Math.abs(Math.sin((t / 1000) * o.v + o.p));
-        x.fillStyle = '#fff'; x.beginPath(); x.arc(o.x, o.y, o.r, 0, 6.28); x.fill();
+        x.fillStyle = '#fffbe8'; x.beginPath(); x.arc(o.x, o.y, o.r, 0, 6.28); x.fill();
+        if (o.r > 1.25) { x.strokeStyle = '#fffbe8'; x.lineWidth = .7; x.beginPath(); x.moveTo(o.x - o.r * 4, o.y); x.lineTo(o.x + o.r * 4, o.y); x.moveTo(o.x, o.y - o.r * 4); x.lineTo(o.x, o.y + o.r * 4); x.stroke(); }
       }
-      if (Math.random() < 0.004 && meteors.length < 2) meteors.push({ x: Math.random() * c.width, y: Math.random() * c.height * 0.4, vx: 6 + Math.random() * 4, vy: 3 + Math.random() * 2, life: 1 });
+      if (Math.random() < 0.0015 && meteors.length < 2) meteors.push({ x: Math.random() * c.width, y: Math.random() * c.height * 0.4, vx: 6 + Math.random() * 4, vy: 3 + Math.random() * 2, life: 1 });
       meteors = meteors.filter((m) => m.life > 0);
       for (const m of meteors) {
         const g = x.createLinearGradient(m.x, m.y, m.x - m.vx * 9, m.y - m.vy * 9);

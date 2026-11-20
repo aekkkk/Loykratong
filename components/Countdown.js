@@ -17,7 +17,7 @@ export default function Countdown() {
     const t = DATES.find((d) => d - now > -864e5) || DATES[DATES.length - 1];
     const ms = t - now;
     if (ms <= 0) {
-      v = [0, 0, 0, 0]; note = '🎉 วันนี้คือวันลอยกระทง!';
+      v = [0, 0, 0, 0]; note = 'วันนี้คือวันลอยกระทง!';
     } else {
       v = [Math.floor(ms / 864e5), Math.floor(ms / 36e5) % 24, Math.floor(ms / 6e4) % 60, Math.floor(ms / 1e3) % 60];
       note = 'นับถอยหลังสู่วันลอยกระทงครั้งถัดไป · ' + t.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' });

@@ -5,13 +5,15 @@ import Reveal from './Reveal';
 import Krathong from './Krathong';
 import Countdown from './Countdown';
 import AsciiArt from './AsciiArt';
+import Icon from './Icon';
+import Credit from './Credit';
 import { STORE_KEY } from '../lib/krathong';
 
 const meanings = [
-  ['🙏', 'ขอบคุณพระแม่คงคา', 'ขอบคุณที่ให้น้ำอุดมสมบูรณ์หล่อเลี้ยงชีวิตและการเพาะปลูกตลอดปี'],
-  ['🌊', 'ขอขมา', 'ขออภัยที่ได้ใช้น้ำ ทิ้งของเสีย หรือทำให้แหล่งน้ำสกปรก'],
-  ['🪔', 'บูชารอยพระพุทธบาท', 'ตามความเชื่อ ลอยเพื่อบูชารอยพระพุทธบาทที่หาดทรายแม่น้ำนัมมทานที'],
-  ['✨', 'ลอยความทุกข์', 'ตัดผมหรือเล็บใส่กระทง เพื่อให้เคราะห์ร้ายลอยตามน้ำไป และเริ่มต้นสิ่งใหม่ที่ดี'],
+  ['hands', 'ขอบคุณพระแม่คงคา', 'ขอบคุณที่ให้น้ำอุดมสมบูรณ์หล่อเลี้ยงชีวิตและการเพาะปลูกตลอดปี'],
+  ['wave', 'ขอขมา', 'ขออภัยที่ได้ใช้น้ำ ทิ้งของเสีย หรือทำให้แหล่งน้ำสกปรก'],
+  ['candle', 'บูชารอยพระพุทธบาท', 'ตามความเชื่อ ลอยเพื่อบูชารอยพระพุทธบาทที่หาดทรายแม่น้ำนัมมทานที'],
+  ['sparkle', 'ลอยความทุกข์', 'ตัดผมหรือเล็บใส่กระทง เพื่อให้เคราะห์ร้ายลอยตามน้ำไป และเริ่มต้นสิ่งใหม่ที่ดี'],
 ];
 const steps = [
   ['ฐานกระทง', 'ตัดต้นกล้วยเป็นแว่นหนาประมาณ 1–2 นิ้ว ใช้เป็นฐานลอยน้ำ'],
@@ -21,10 +23,10 @@ const steps = [
   ['อธิษฐาน', 'จุดเทียน ธูป ตั้งจิตอธิษฐาน แล้วค่อยๆ วางลงน้ำ'],
 ];
 const regions = [
-  ['🏮 เชียงใหม่ — ยี่เป็ง', 'ภาคเหนือ', 'ชาวล้านนาเรียก “ประเพณียี่เป็ง” (ยี่ = สอง, เป็ง = เพ็ญ) ปล่อยโคมลอยและประดับโคมไฟทั่วเมือง ขบวนแห่งดงามตระการตา'],
-  ['🏯 สุโขทัย — เผาเทียนเล่นไฟ', 'ภาคกลาง', 'งานใหญ่ที่อุทยานประวัติศาสตร์สุโขทัย มีการแสดงแสงสีเสียงเล่าตำนานนางนพมาศ และขบวนแห่กระทงโบราณ'],
-  ['🚣 ตาก — กระทงสาย', 'ภาคเหนือตอนล่าง', 'ชาวตากร้อยกระทงเล็กๆ ต่อกันเป็นสายยาว ลอยตามแม่น้ำปิง สว่างไสวสวยงามเป็นเอกลักษณ์'],
-  ['🐉 หนองคาย — พญานาค', 'ภาคอีสาน', 'ลอยเรือไฟและกระทงริมโขง ผู้คนต่างเชื่อว่าพญานาคมาร่วมงาน'],
+  ['lantern', 'เชียงใหม่ — ยี่เป็ง', 'ภาคเหนือ', 'ชาวล้านนาเรียก “ประเพณียี่เป็ง” (ยี่ = สอง, เป็ง = เพ็ญ) ปล่อยโคมลอยและประดับโคมไฟทั่วเมือง ขบวนแห่งดงามตระการตา'],
+  ['temple', 'สุโขทัย — เผาเทียนเล่นไฟ', 'ภาคกลาง', 'งานใหญ่ที่อุทยานประวัติศาสตร์สุโขทัย มีการแสดงแสงสีเสียงเล่าตำนานนางนพมาศ และขบวนแห่กระทงโบราณ'],
+  ['boat', 'ตาก — กระทงสาย', 'ภาคเหนือตอนล่าง', 'ชาวตากร้อยกระทงเล็กๆ ต่อกันเป็นสายยาว ลอยตามแม่น้ำปิง สว่างไสวสวยงามเป็นเอกลักษณ์'],
+  ['naga', 'หนองคาย — พญานาค', 'ภาคอีสาน', 'ลอยเรือไฟและกระทงริมโขง ผู้คนต่างเชื่อว่าพญานาคมาร่วมงาน'],
 ];
 const tips = [
   'เลือกกระทงจากใบตอง ต้นกล้วย หรือวัสดุธรรมชาติที่ย่อยสลายได้',
@@ -52,7 +54,7 @@ const Head = ({ title, sub }) => (<>
   {sub && <Reveal as="p" className="sub">{sub}</Reveal>}
 </>);
 
-const GoBtn = () => <Link href="/float" className="btn go-btn">🪷 ไปลอยกระทง</Link>;
+const GoBtn = () => <Link href="/float" className="btn go-btn"><Icon name="lotus" /> ไปลอยกระทง</Link>;
 
 export default function HistoryPage() {
   const [mine, setMine] = useState([]);
@@ -83,7 +85,7 @@ export default function HistoryPage() {
           </Reveal>
           <div className="grid">
             {meanings.map(([i, t, d], n) => (
-              <Reveal key={t} className="card" delay={n * 120}><div className="ico">{i}</div><h3>{t}</h3><p>{d}</p></Reveal>
+              <Reveal key={t} className="card" delay={n * 120}><div className="ico"><Icon name={i} size="1.6em" /></div><h3>{t}</h3><p>{d}</p></Reveal>
             ))}
           </div>
         </section>
@@ -112,8 +114,8 @@ export default function HistoryPage() {
         <section>
           <Head title="ลอยกระทงทั่วไทย" sub="แต่ละภาคมีเอกลักษณ์ของตัวเอง" />
           <div className="grid">
-            {regions.map(([t, r, d], n) => (
-              <Reveal key={t} className="card region" delay={n * 120}><h3>{t}</h3><small>{r}</small><p>{d}</p></Reveal>
+            {regions.map(([ic, t, r, d], n) => (
+              <Reveal key={t} className="card region" delay={n * 120}><div className="ico"><Icon name={ic} size="1.6em" /></div><h3>{t}</h3><small>{r}</small><p>{d}</p></Reveal>
             ))}
           </div>
         </section>
@@ -128,7 +130,7 @@ export default function HistoryPage() {
         <section>
           <Head title="กระทงของฉัน" sub={`ประวัติกระทงที่คุณเคยลอย (${mine.length})`} />
           {list.length === 0 ? (
-            <p className="sub">ยังไม่มีกระทง ลองกด “ไปลอยกระทง” แล้วอธิษฐานดูนะ 🌙</p>
+            <p className="sub">ยังไม่มีกระทง ลองกด “ไปลอยกระทง” แล้วอธิษฐานดูนะ</p>
           ) : (
             <>
               <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(230px,1fr))' }}>
@@ -152,7 +154,8 @@ export default function HistoryPage() {
         <footer className="site-footer">
           <AsciiArt />
           <p className="ft-title">สุขสันต์วันลอยกระทง</p>
-          <p className="ft-sub">ขอให้ความทุกข์ลอยไปกับสายน้ำ และความสุขสว่างไสวเหมือนแสงจันทร์วันเพ็ญ 🌕</p>
+          <p className="ft-sub">ขอให้ความทุกข์ลอยไปกับสายน้ำ และความสุขสว่างไสวเหมือนแสงจันทร์วันเพ็ญ</p>
+          <Credit />
         </footer>
       </div>
     </div>

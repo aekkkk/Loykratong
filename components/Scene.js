@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import Building from './Building';
 import Krathong from './Krathong';
-import Fireworks from './Fireworks';
-import Lotus from './Lotus';
+import Shore from './Shore';
+import Icon from './Icon';
+import Credit from './Credit';
 import { COLORS, STORE_KEY, chime } from '../lib/krathong';
 
 const LANES = [{ scale: 0.6, bright: 0.75 }, { scale: 0.8, bright: 0.9 }, { scale: 1, bright: 1 }];
@@ -21,6 +22,11 @@ export default function Scene() {
   const [wish, setWish] = useState('');
   const [color, setColor] = useState(COLORS[0]);
   const [shown, setShown] = useState(null);
+
+  useEffect(() => {
+    document.body.classList.add('scene-mode');
+    return () => document.body.classList.remove('scene-mode');
+  }, []);
 
   useEffect(() => {
     setAmbient(LANES.flatMap((l, li) => Array.from({ length: 5 }, (_, i) => {
@@ -55,8 +61,9 @@ export default function Scene() {
 
   return (
     <div className="scene">
-      <Fireworks />
       <div className="moon-s"><i /></div>
+      <div className="clouds" aria-hidden="true"><span className="c1" /><span className="c2" /><span className="c3" /><span className="c4" /></div>
+      <div className="horizon-glow" aria-hidden="true" />
       <header className="scene-title">
         <h1>ลอยกระทงออนไลน์</h1>
         <p>ปล่อยคำอธิษฐานของคุณไปกับสายน้ำ</p>
@@ -64,10 +71,10 @@ export default function Scene() {
       <p className="counter">คุณลอยไปแล้ว <b>{count.toLocaleString('th-TH')}</b> กระทง</p>
 
       <div className="bld-wrap" aria-hidden="true">
-        <Building tone="night" />
-        <div className="bld-reflect"><div><Building tone="night" /></div></div>
+        <Building tone="dusk" />
+        <div className="bld-reflect"><div><Building tone="dusk" /></div></div>
       </div>
-      <div className="shore" aria-hidden="true" />
+      <Shore />
       <div className="water" aria-hidden="true">
         <div className="moon-ref" />
         <div className="glint g1" /><div className="glint g2" /><div className="glint g3" />
@@ -91,13 +98,13 @@ export default function Scene() {
         ))}
       </div>
 
-      <Lotus side="l" /><Lotus side="r" />
       <div className="fireflies" aria-hidden="true">
         {Array.from({ length: 8 }, (_, i) => (<span key={i} className="firefly" style={{ left: (8 + i * 12) + '%', bottom: (6 + (i * 37) % 22) + '%', animationDuration: (8 + (i % 4) * 1.5) + 's', animationDelay: -i * 1.3 + 's' }} />))}
       </div>
 
-      <button className="btn create-btn" onClick={() => setCreate(true)}>🪷 สร้างกระทง</button>
-      <Link href="/" className="info-btn hist-btn">📜 ประวัติและเรื่องราว</Link>
+      <Credit className="scene-credit" />
+      <button className="btn create-btn" onClick={() => setCreate(true)}><Icon name="lotus" /> สร้างกระทง</button>
+      <Link href="/" className="info-btn hist-btn"><Icon name="scroll" /> ประวัติและเรื่องราว</Link>
 
       {create && (
         <div className="modal-bg" onClick={(e) => e.target === e.currentTarget && setCreate(false)}>

@@ -3,6 +3,7 @@ import { KrathongDefs } from '../components/Krathong';
 import Stars from '../components/Stars';
 import Lanterns from '../components/Lanterns';
 import MusicPlayer from '../components/MusicPlayer';
+import Watercolor from '../components/Watercolor';
 
 export const metadata = {
   title: 'ลอยกระทง – เทศกาลแห่งแสงเทียนและสายน้ำ',
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
         <Stars />
         <Lanterns />
         {children}
+        <Watercolor />
         <MusicPlayer />
       </body>
     </html>
