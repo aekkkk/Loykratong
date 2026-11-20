@@ -10,6 +10,7 @@ import Shore from "@/components/Shore";
 import Stars from "@/components/Stars";
 import Lanterns from "@/components/Lanterns";
 import Credit from "@/components/Credit";
+import Countdown from "@/components/Countdown";
 import { DesignButton } from "@/components/ui/DesignButton";
 import { CountBadge } from "@/components/ui/Badge";
 import { useToastStack } from "@/components/ui/ToastStack";
@@ -79,6 +80,7 @@ export default function Scene() {
       <header className="scene-title">
         <h1>ลอยกระทงออนไลน์</h1>
         <p>ปล่อยคำอธิษฐานของคุณไปกับสายน้ำ</p>
+        <Countdown variant="compact" className="pointer-events-auto mx-auto mt-3 w-max" />
       </header>
 
       <div className="scene-back">

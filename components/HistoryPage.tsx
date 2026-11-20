@@ -13,6 +13,7 @@ import Krathong from "@/components/Krathong";
 import AsciiArt from "@/components/AsciiArt";
 import Credit from "@/components/Credit";
 import ThemeSwitch from "@/components/ThemeSwitch";
+import Countdown, { useCountdown } from "@/components/Countdown";
 import { STORE_KEY } from "@/lib/krathong";
 
 const MEANINGS = [
@@ -68,25 +69,7 @@ const NAV = [
   ["#mine", "กระทงของฉัน"],
 ];
 
-// วันลอยกระทง (วันเพ็ญเดือน ๑๒)
-const FESTIVALS = ["2026-11-24", "2027-11-14", "2028-11-02"].map((d) => new Date(`${d}T18:00:00+07:00`));
-
 type Mine = { id: string; color: string; name: string; wish: string; ts?: number };
-
-function useCountdown() {
-  const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => {
-    setNow(new Date());
-    const i = setInterval(() => setNow(new Date()), 30000);
-    return () => clearInterval(i);
-  }, []);
-  if (!now) return null;
-  const target = FESTIVALS.find((d) => d.getTime() - now.getTime() > -864e5) ?? FESTIVALS[FESTIVALS.length - 1];
-  const ms = target.getTime() - now.getTime();
-  const days = Math.max(0, Math.floor(ms / 864e5));
-  const hours = Math.max(0, Math.floor(ms / 36e5) % 24);
-  return { target, days, hours, today: ms <= 0 };
-}
 
 function Section({ id, title, lead, children }: { id: string; title: string; lead?: string; children: React.ReactNode }) {
   return (
@@ -100,7 +83,7 @@ function Section({ id, title, lead, children }: { id: string; title: string; lea
 
 export default function HistoryPage() {
   const router = useRouter();
-  const cd = useCountdown();
+  const cd = useCountdown(60000);
   const [mine, setMine] = useState<Mine[]>([]);
 
   useEffect(() => {
@@ -119,7 +102,7 @@ export default function HistoryPage() {
       {/* header */}
       <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-canvas)_82%,transparent)] backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-[1080px] items-center gap-6 px-5">
-          <a href="#top" className="flex items-center gap-2.5 font-semibold tracking-tight text-[var(--color-text)] no-underline">
+          <a href="#top" className="flex shrink-0 items-center gap-2.5 font-semibold whitespace-nowrap tracking-tight text-[var(--color-text)] no-underline">
             <span className="grid size-8 place-items-center rounded-[10px] bg-neutral-900 text-white home-dark:bg-neutral-100 home-dark:text-neutral-950">
               <Flower2 size={18} strokeWidth={1.8} aria-hidden="true" />
             </span>
@@ -132,7 +115,7 @@ export default function HistoryPage() {
           </nav>
           <div className="ml-auto flex items-center gap-3">
             <ThemeSwitch className="origin-right scale-[.8]" />
-            <DesignButton onClick={go} className="hidden sm:inline-flex">ไปลอยกระทง <ArrowRight aria-hidden="true" /></DesignButton>
+            <span className="hidden sm:block"><DesignButton onClick={go}>ไปลอยกระทง <ArrowRight aria-hidden="true" /></DesignButton></span>
           </div>
         </div>
       </header>
@@ -143,7 +126,7 @@ export default function HistoryPage() {
           <div className="flex flex-wrap items-center gap-2">
             {cd && (cd.today
               ? <StatusBadge status="ready">วันนี้คือวันลอยกระทง</StatusBadge>
-              : <StatusBadge status="scheduled">อีก {cd.days} วัน {cd.hours} ชั่วโมง</StatusBadge>)}
+              : <StatusBadge status="scheduled">อีก {cd.parts[0]} วัน</StatusBadge>)}
             {cd && <span className="type-ui text-[var(--color-text-muted)]">{cd.target.toLocaleDateString("th-TH", { day: "numeric", month: "long", year: "numeric" })}</span>}
           </div>
           <h1 className="type-h1 mt-6 mb-0">ลอยกระทง</h1>
@@ -155,6 +138,8 @@ export default function HistoryPage() {
             <DesignButton size="lg" onClick={go}><Flower2 aria-hidden="true" /> ไปลอยกระทง</DesignButton>
             <DesignButton size="lg" variant="secondary" onClick={() => document.getElementById("history")?.scrollIntoView({ behavior: "smooth" })}>อ่านประวัติ</DesignButton>
           </div>
+
+          <Countdown className="mt-12" />
 
           <figure className="mt-12 mb-0">
             <div className="rounded-[var(--radius-card)] p-1 shadow-[var(--shadow-border)]">
